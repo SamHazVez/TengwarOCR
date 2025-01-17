@@ -60,7 +60,7 @@ def build_ocr_model():
 def train_model(X_sh, y_sh, le):
   model = build_ocr_model()
   model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics = ['accuracy'])
-  model.fit(X_sh, y_sh ,validation_split=0.2, batch_size=4, epochs=10)
+  model.fit(X_sh, y_sh ,validation_split=0.2, batch_size=4, epochs=50)
   return model, le
 
 def latin():
