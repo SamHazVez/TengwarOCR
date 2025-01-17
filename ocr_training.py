@@ -59,7 +59,7 @@ def latin():
   return train_model(X_sh, y_sh, le)
 
 def beleriand():
-  X_sh, y_sh, le = build_data('beleriand')
+  X_sh, y_sh, le = build_data('tengwar')
   return train_model(X_sh, y_sh, le)
 
 

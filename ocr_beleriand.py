@@ -9,7 +9,7 @@ from ocr_training import beleriand
 test_images = []
 test_labels = []
 
-path = 'data/beleriand/training_data'
+path = 'data/tengwar/testing_data'
 
 dir_list = os.listdir(path)
 for i in dir_list:
