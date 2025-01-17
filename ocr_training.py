@@ -8,10 +8,10 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder
 from sklearn.utils import shuffle
 
-def build_data(type):
+def build_data(data_type):
   images = []
   labels = []
-  path = 'data/' + type + '/training_data'
+  path = f'data/{data_type}/training'
   dir_list = os.listdir(path)
   for i in dir_list:
     dir = os.path.join(path, i)
@@ -19,9 +19,7 @@ def build_data(type):
     for j in file_list:
       files = os.path.join(dir, j)
       image = cv2.imread(files)
-      image = cv2.resize(image, (64,64))
-      image = np.array(image, dtype=np.float32)
-      image = image/255
+      image = preprocess_image(image)
       images.append(image)
       labels.append(i)
 
@@ -33,25 +31,36 @@ def build_data(type):
   X_sh, y_sh = shuffle(X, y, random_state=42)
   return X_sh, y_sh, le
 
+def preprocess_image(image):
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = cv2.resize(image, (64, 64))
+    image = np.array(image, dtype=np.float32) / 255.0
+    image = np.expand_dims(image, axis=-1)
+    image = tf.image.random_brightness(image, max_delta=0.1)
+    image = tf.image.random_contrast(image, lower=0.9, upper=1.1)
+    image = image.numpy()
+    return image
+
 def build_ocr_model():
-    model = Sequential()
-    model.add(Conv2D(filters=16, kernel_size=(3,3), activation='relu', input_shape=(64,64,3)))
-    model.add(MaxPooling2D())
-    model.add(Conv2D(filters=32, kernel_size=(3,3),  activation='relu'))
-    model.add(MaxPooling2D())
-    model.add(Conv2D(filters=64, kernel_size=(3,3),  activation='relu'))
-    model.add(MaxPooling2D())
-    model.add(Conv2D(filters=128, kernel_size=(3,3), activation='relu'))
-    model.add(Flatten())
-    model.add(Dense(units=128, activation='relu'))
-    model.add(Dense(units=64, activation='relu'))
-    model.add(Dense(units=36, activation='softmax'))
+    model = Sequential([
+        Conv2D(filters=16, kernel_size=(3, 3), activation='relu', input_shape=(64, 64, 1)),
+        MaxPooling2D(),
+        Conv2D(filters=32, kernel_size=(3, 3), activation='relu'),
+        MaxPooling2D(),
+        Conv2D(filters=64, kernel_size=(3, 3), activation='relu'),
+        MaxPooling2D(),
+        Conv2D(filters=128, kernel_size=(3, 3), activation='relu'),
+        Flatten(),
+        Dense(units=128, activation='relu'),
+        Dense(units=64, activation='relu'),
+        Dense(units=38, activation='softmax')
+    ])
     return model
 
 def train_model(X_sh, y_sh, le):
   model = build_ocr_model()
   model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics = ['accuracy'])
-  history = model.fit(X_sh, y_sh ,validation_split=0.2, batch_size=4, epochs=50)
+  model.fit(X_sh, y_sh ,validation_split=0.2, batch_size=4, epochs=10)
   return model, le
 
 def latin():

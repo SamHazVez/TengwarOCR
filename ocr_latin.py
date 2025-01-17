@@ -9,7 +9,7 @@ from ocr_training import latin
 test_images = []
 test_labels = []
 
-path = 'data/latin/testing_data'
+path = 'data/latin/testing'
 
 dir_list = os.listdir(path)
 for i in dir_list:

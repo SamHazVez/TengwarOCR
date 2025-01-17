@@ -9,7 +9,7 @@ from ocr_training import beleriand
 test_images = []
 test_labels = []
 
-path = 'data/tengwar/testing_data'
+path = 'data/tengwar/testing'
 
 dir_list = os.listdir(path)
 for i in dir_list:
@@ -18,9 +18,10 @@ for i in dir_list:
   for j in file_list:
     files = os.path.join(dir, j)
     image = cv2.imread(files)
-    image = cv2.resize(image, (64,64))
-    image = np.array(image, dtype=np.float32)
-    image = image/255
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = cv2.resize(image, (64, 64))
+    image = np.array(image, dtype=np.float32) / 255.0
+    image = np.expand_dims(image, axis=-1)
     test_images.append(image)
     test_labels.append(i)
     
