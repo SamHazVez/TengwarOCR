@@ -1,9 +1,7 @@
 import os
 import cv2
 
-path = 'data/tengwar/sentences'
-
-def extract_char():
+def extract_by_path(path):
   dir_list = os.listdir(path)
   for i in dir_list:
     dir = os.path.join(path, i)

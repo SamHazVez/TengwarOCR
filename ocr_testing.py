@@ -1,8 +1,8 @@
 from ocr_training import beleriand
 from ocr_beleriand import predict_by_rois
-from extract import extract_char
+from extract import extract_by_path
 
-path = 'data/tengwar/testing'
+path = 'data/tengwar/sentences'
 
 model, le = beleriand()
-predict_by_rois(extract_char(), model, le)
+predict_by_rois(extract_by_path(path), model, le)
