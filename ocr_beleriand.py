@@ -8,7 +8,7 @@ from ocr_training import beleriand
 images = []
 labels = []
 
-def predict_by_path(path) :
+def predict_test(path) :
   dir_list = os.listdir(path)
   for i in dir_list:
     dir = os.path.join(path, i)
