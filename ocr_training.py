@@ -69,33 +69,3 @@ def latin():
 def beleriand():
   X_sh, y_sh, le = __build_data('tengwar')
   return __train_model(X_sh, y_sh, le)
-
-
-# def build_ocr_model(input_shape, num_classes):
-#     inputs = layers.Input(shape=input_shape)
-#     x = layers.Conv2D(32, (3, 3), activation="relu", padding="same")(inputs)
-#     x = layers.MaxPooling2D(pool_size=(2, 2))(x)
-#     x = layers.Conv2D(64, (3, 3), activation="relu", padding="same")(x)
-#     x = layers.MaxPooling2D(pool_size=(2, 2))(x)
-#     x = layers.Reshape((-1, x.shape[-1]))(x)  # Flatten spatial dimensions
-#     x = layers.Bidirectional(layers.LSTM(128, return_sequences=True))(x)
-#     outputs = layers.Dense(num_classes + 1, activation="softmax")(x)  # +1 for CTC blank token
-
-#     return tf.keras.Model(inputs, outputs)
-
-# Example: Build model for 26 characters + 10 digits + CTC blank token
-# input_shape = (128, 32, 1)  # Height, Width, Channels
-# num_classes = 36
-# model = build_ocr_model(input_shape, num_classes)
-# model.summary()
-
-# def ctc_loss(y_true, y_pred):
-#     y_pred = tf.nn.log_softmax(y_pred)
-#     input_length = tf.fill([tf.shape(y_pred)[0]], tf.shape(y_pred)[1])
-#     label_length = tf.fill([tf.shape(y_true)[0]], tf.shape(y_true)[1])
-#     return tf.reduce_mean(tf.keras.backend.ctc_batch_cost(y_true, y_pred, input_length, label_length))
-
-# model.compile(optimizer="adam", loss=ctc_loss, metrics=['accuracy'])
-
-# # Example training loop
-# model.fit(train_dataset, validation_data=val_dataset, epochs=10)

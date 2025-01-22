@@ -7,12 +7,7 @@ app = Flask('TengwarOCR')
 model = None
 le = None
     
-@app.route('/train/latin', methods = ['GET'])
-def train_latin():
-    model, le = latin()
-    return "OK"
-    
-@app.route('/train/beleriand', methods = ['GET'])
+@app.route('/train', methods = ['GET'])
 def train_beleriand():
     model, le = beleriand()
     return "OK"
