@@ -1,6 +1,5 @@
-from ocr_training import beleriand
-from ocr_beleriand import predict_by_rois
-from extract import extract_test
+from ocr_training import train_beleriand
+from ocr_beleriand import predict_test
 
-model, le = beleriand()
-predict_by_rois(extract_test(), model, le)
+model, le = train_beleriand()
+predict_test()

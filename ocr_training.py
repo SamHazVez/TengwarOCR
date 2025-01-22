@@ -62,10 +62,6 @@ def __train_model(X_sh, y_sh, le):
   model.fit(X_sh, y_sh ,validation_split=0.2, batch_size=4, epochs=50)
   return model, le
 
-def latin():
-  X_sh, y_sh, le = __build_data('latin')
-  return __train_model(X_sh, y_sh, le)
-
-def beleriand():
+def train_beleriand():
   X_sh, y_sh, le = __build_data('tengwar')
   return __train_model(X_sh, y_sh, le)
