@@ -3,13 +3,11 @@ import os
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-from ocr_training import train_beleriand
 
-def predict_test() :
+def predict_test(model, le) :
   images = []
   labels = []
   path = 'data/tengwar/testing'
-  model, le = train_beleriand()
   dir_list = os.listdir(path)
   for i in dir_list:
     dir = os.path.join(path, i)
@@ -25,7 +23,7 @@ def predict_test() :
       labels.append(i)
   X = np.array(images)
   y = np.array(labels)
-  __predict(X, model, le)
+  return __predict(X, model, le)
  
 def __predict_by_rois(rois, model, le):
   images = []
@@ -42,10 +40,10 @@ def __predict(X, model, le):
   preds = model.predict(X)
   predicted_labels = le.inverse_transform(np.argmax(preds, axis=1))
 
-  for k, test in enumerate(X):
-    plt.imshow(X[k])
-    plt.title('Predicted: ' + predicted_labels[k])
-    plt.show()
+  #for k, test in enumerate(X):
+    #plt.imshow(X[k])
+    #plt.title('Predicted: ' + predicted_labels[k])
+    #plt.show()
   return predicted_labels
 
 def __extract(image):
@@ -65,8 +63,8 @@ def __extract(image):
       rect = cv2.rectangle(image_boxed, (x, y), (x + w, y + h), (0, 255, 0), 2)
       roi = image[y:y + h, x:x + w]
       rois.append(roi)
-      cv2.imshow('rect', rect)
-  cv2.waitKey(0)
+      #cv2.imshow('rect', rect)
+  #cv2.waitKey(0)
   return rois
 
 def predict_beleriand(image, model, le):
